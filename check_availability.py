@@ -6,6 +6,7 @@ import os
 import requests
 import signal
 
+
 def check(dist_id, age):
 	url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict'
 	ist_date = datetime.now(timezone(timedelta(hours=5, minutes=30))).strftime("%d-%m-%Y")
@@ -22,17 +23,22 @@ def check(dist_id, age):
 
 	body = res.json()
 	available = []
-	for center in body.centers:
-		for session in center.sessions:
-			if session.available_capacity > 0 and session.min_age_limit <= age:
+	for center in body['centers']:
+		for session in center['sessions']:
+			if session['available_capacity'] > 0 and session['min_age_limit'] <= age:
 				available.append(center)
 
+	return available
+
+
+def check_district(dist, age):
+	available = check(dist, age)
 	if len(available) > 0:
 		print("AVAILABLE!!\n\n")
 		print(json.dumps(available, indent=4))
 		print('\a\n')
 	else:
-		print("no luck this time...")
+		print(f"district id {dist} - no luck this time...")
 
 
 def check_districts(dists, age):
