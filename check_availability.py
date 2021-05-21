@@ -55,7 +55,7 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-d', '--dists', type=int, nargs='+', help='district ids [-d 111 222 ...]')
 	parser.add_argument('-a', '--age', type=int, default=18, help='minimum age limit (18 or 45)')
-	parser.add_argument('-i', '--interval', type=int, default=10, help='retry interval')
+	parser.add_argument('-i', '--interval', type=int, default=30, help='retry interval')
 	args = parser.parse_args()
 
 	asyncio.run(runner(**vars(args)))
